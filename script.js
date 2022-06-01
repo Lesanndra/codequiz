@@ -1,4 +1,4 @@
-
+var qIndex = 0;
 
 var questions = [
     {
@@ -36,7 +36,7 @@ var questions = [
 ]
 
 var qIndex = 0;
-var count = questions.length * 3;
+var count = questions.length * 5;
 var timeInterval;
 
 
@@ -45,9 +45,9 @@ var questionEl = document.getElementById("question")
 var questionTitleEl = document.getElementById("question-title")
 var questionListEl = document.getElementById("question-list")
 var timerEl = document.getElementById("count")
+var checkAnswerEl = document.getElementById("check-answer")
 
-
-
+//Start Quiz
  function startQuiz(){
     var initialScreenEl = document.getElementById("startquiz");
     initialScreenEl.setAttribute("id", "hide");
@@ -58,24 +58,22 @@ var timerEl = document.getElementById("count")
 
     timeInterval = setInterval(countDown, 1000)
 
-    showQuestions();
+    showNextQuestion();
 }
 
 
-
- function showQuestions(){
+//Show Questions
+ function showNextQuestion(){
 
     var questionOnScreen = questions[qIndex];
     
     var questionTitle = document.getElementById("question-title");
-   questionTitle.textContent = questionOnScreen.title;
+    questionTitle.textContent = questionOnScreen.title;
     
     questionListEl.innerHTML = "";
-    var choices = questions[qIndex].options;
-    //var questionslength = questions.length;
 
-
-    questionOnScreen.options.forEach((choices, i) => {
+    //loop through and show each question choice as a button
+    questionOnScreen.options.forEach(function(choices, i){
         var questionOption = document.createElement("button");
         questionOption.setAttribute("class", "choices");
         questionOption.setAttribute("value", choices);
@@ -89,18 +87,52 @@ var timerEl = document.getElementById("count")
     })
 }
 
+//Show Next Question
 function otherQuestions(){
-    if (this.value === questions[qIndex].answer){
-        questions[qIndex]++
-    }
+    qIndex++
+    showNextQuestion()
 
+    if(questions.length === qIndex){
+        stopQuiz();
+    } else {
+        showNextQuestion();
+    }
+}
+
+function checkAnswer(event){
+    if(event.target.matches("button")){
+        answer = event.target.textContent;
+        if(answer === questions[qIndex].answer){
+            checkAnswerEl.textContent = "Correct!";
+        } else{
+            checkAnswerEl.textContent = "Wrong!";
+            count -= 5
+            timerEl.textContent = count;
+    }
+    checkAnswerEl.setAttribute("class", "checkanswer");
+    setTimeout(() => {
+        checkAnswerEl.setAttribute("class", "checkanswer hide");
+    }, 1000);
+    } 
+    //setTimeout(otherQuestions,2000)
+}
+
+//Stop Quiz on timeout
+function stopQuiz(){
+    clearInterval(showNextQuestion);
+    questionEl.setAttribute("class", "hide")
 }
 
 function countDown(){
     count--;
     timerEl.textContent = count;
+    if(count <= 0){
+        stopQuiz();
+    }
 }
 
 
+
+questionListEl.addEventListener('click', checkAnswer);
 //start the quiz
 startbuttonEl.onclick = startQuiz;
