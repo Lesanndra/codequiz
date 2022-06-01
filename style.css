@@ -1,3 +1,6 @@
+body {
+    font-size:130%;
+}
 .container {
     display: block;
     margin: 80px, auto;
@@ -5,12 +8,25 @@
     max-width: 700px;
     padding: 200px;
 }
-h1 {
-    font-size: 50px;
-}
+
 p {
     font-size: 24px;
 }
+ol {
+    padding-left: 0px;
+    max-height: 400px;
+    overflow: auto;
+  }
+  
+  li {
+    padding: 5px;
+    list-style: decimal inside none;
+}
+
+#hide {
+    display: none;
+  }
+
 .countdown {
     font-size: 24px;
     position: absolute;
@@ -23,10 +39,23 @@ p {
     top: 10px;
     left: 10px;
 }
+#question-list button{
+    display: block;
+    margin: 5px;
+    padding: 7px, 12px;
+    border-radius: 10px;
+
+}
+button:hover {
+    opacity: 50%;
+}
+
 button {
+    display: inline-block;
     background-color: purple;
     color: white;
     font-size: 20px;
     cursor:pointer;
     padding: 10px;
+    margin: 10px;
 }

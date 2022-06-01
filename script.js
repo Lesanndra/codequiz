@@ -41,23 +41,16 @@ var questionTitleEl = document.getElementById("question-title")
 var questionListEl = document.getElementById("question-list")
 
 
-var count = 0
-
-
-  function countDown(){
-
-
-}
-
-
 
  function startQuiz(){
-    var initialScreenEl = document.getElementById("initial-screen");
-    initialScreenEl.setAttribute("class", "hide");
+    var initialScreenEl = document.getElementById("startquiz");
+    initialScreenEl.setAttribute("id", "hide");
 
-    document.getElementById("question").showQuestions();
+    questionEl.removeAttribute("class");
 
-    // questionEl.removeAttribute("");
+    //document.getElementById("question").showQuestions();
+
+     //questionEl.removeAttribute("");
    // document.getElementById("question").removeAttribute("width")
 
     showQuestions();
@@ -68,32 +61,35 @@ var count = 0
 var qIndex = 0;
 
  function showQuestions(){
+
     var questionOnScreen = questions[qIndex];
     
     var questionTitle = document.getElementById("question-title");
-    questionTitle.textContent = questionOnScreen.title;
+   questionTitle.textContent = questionOnScreen.title;
     
     questionListEl.innerHTML = "";
     var choices = questions[qIndex].options;
-    var questionslength = questions.length;
+    //var questionslength = questions.length;
 
-  for (var i = 0; i < questionslength; i++){
-      var questionOption = document.createElement("button");
-      questionOption.setAttribute("class", "choices");
-      questionOption.setAttribute("value", choices);
 
-    
-      questionOption.textContent = choices[i];
+    questionOnScreen.options.forEach((choices, i) => {
+        var questionOption = document.createElement("button");
+        questionOption.setAttribute("class", "choices");
+        questionOption.setAttribute("value", choices);
+  
+        questionOption.textContent = i + 1 + ". " + choices
+  
+      
+        //questionOption.textContent = choices[i];
+  
+        //questionOption.onclick = 
+  
+        questionListEl.append(questionOption);
 
-      //questionOption.onclick = 
-
-      questionListEl.append(questionOption);
-  }
+    })
 }
 
 
 
 //start the quiz
-startbuttonEl.addEventListener("click", function(){
-    showQuestions();
-})
+startbuttonEl.onclick = startQuiz;
