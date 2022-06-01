@@ -1,3 +1,5 @@
+
+
 var questions = [
     {
         title: "Commonly used data types DO NOT include:",
@@ -33,12 +35,16 @@ var questions = [
       }
 ]
 
+var qIndex = 0;
+var count = questions.length * 3;
+var timeInterval;
 
 
 var startbuttonEl = document.getElementById("start")
 var questionEl = document.getElementById("question")
 var questionTitleEl = document.getElementById("question-title")
 var questionListEl = document.getElementById("question-list")
+var timerEl = document.getElementById("count")
 
 
 
@@ -48,17 +54,14 @@ var questionListEl = document.getElementById("question-list")
 
     questionEl.removeAttribute("class");
 
-    //document.getElementById("question").showQuestions();
+    timerEl.textContent = count;
 
-     //questionEl.removeAttribute("");
-   // document.getElementById("question").removeAttribute("width")
+    timeInterval = setInterval(countDown, 1000)
 
     showQuestions();
 }
 
 
-
-var qIndex = 0;
 
  function showQuestions(){
 
@@ -79,16 +82,24 @@ var qIndex = 0;
   
         questionOption.textContent = i + 1 + ". " + choices
   
-      
-        //questionOption.textContent = choices[i];
-  
-        //questionOption.onclick = 
+        questionOption.onclick = otherQuestions;
   
         questionListEl.append(questionOption);
 
     })
 }
 
+function otherQuestions(){
+    if (this.value === questions[qIndex].answer){
+        questions[qIndex]++
+    }
+
+}
+
+function countDown(){
+    count--;
+    timerEl.textContent = count;
+}
 
 
 //start the quiz
