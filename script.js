@@ -1,5 +1,3 @@
-var qIndex = 0;
-
 var questions = [
     {
         title: "Commonly used data types DO NOT include:",
@@ -46,6 +44,7 @@ var questionTitleEl = document.getElementById("question-title")
 var questionListEl = document.getElementById("question-list")
 var timerEl = document.getElementById("count")
 var checkAnswerEl = document.getElementById("check-answer")
+var answerEl = document.getElementById("button")
 
 //Start Quiz
  function startQuiz(){
@@ -55,8 +54,7 @@ var checkAnswerEl = document.getElementById("check-answer")
     questionEl.removeAttribute("class");
 
     timerEl.textContent = count;
-
-    timeInterval = setInterval(countDown, 1000)
+    timeInterval = setInterval(stopCountDown, 1000);
 
     showNextQuestion();
 }
@@ -87,7 +85,7 @@ var checkAnswerEl = document.getElementById("check-answer")
     })
 }
 
-//Show Next Question
+//increment questions
 function otherQuestions(){
     qIndex++
     showNextQuestion()
@@ -99,10 +97,12 @@ function otherQuestions(){
     }
 }
 
+
+//check answer
 function checkAnswer(event){
     if(event.target.matches("button")){
         answer = event.target.textContent;
-        if(answer === questions[qIndex].answer){
+        if(answerEl === questions[qIndex].answer){
             checkAnswerEl.textContent = "Correct!";
         } else{
             checkAnswerEl.textContent = "Wrong!";
@@ -114,25 +114,24 @@ function checkAnswer(event){
         checkAnswerEl.setAttribute("class", "checkanswer hide");
     }, 1000);
     } 
-    //setTimeout(otherQuestions,2000)
 }
+   
 
 //Stop Quiz on timeout
 function stopQuiz(){
-    clearInterval(showNextQuestion);
+    clearInterval(timeInterval);
     questionEl.setAttribute("class", "hide")
 }
 
-function countDown(){
+  function stopCountDown(){
     count--;
     timerEl.textContent = count;
-    if(count <= 0){
-        stopQuiz();
-    }
-}
+        if(count <= 0){  
+            stopQuiz();
+        } 
+  }
 
-
-
+  //check answer on click of the question choices
 questionListEl.addEventListener('click', checkAnswer);
 //start the quiz
 startbuttonEl.onclick = startQuiz;
