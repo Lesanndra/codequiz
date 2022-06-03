@@ -34,7 +34,7 @@ var questions = [
 ]
 
 var qIndex = 0;
-var count = questions.length * 5;
+var count = questions.length * 10;
 var timeInterval;
 
 
@@ -44,7 +44,8 @@ var questionTitleEl = document.getElementById("question-title")
 var questionListEl = document.getElementById("question-list")
 var timerEl = document.getElementById("count")
 var checkAnswerEl = document.getElementById("check-answer")
-var answerEl = document.getElementById("button")
+
+
 
 //Start Quiz
  function startQuiz(){
@@ -58,6 +59,7 @@ var answerEl = document.getElementById("button")
 
     showNextQuestion();
 }
+
 
 
 //Show Questions
@@ -78,48 +80,52 @@ var answerEl = document.getElementById("button")
   
         questionOption.textContent = i + 1 + ". " + choices
   
-        questionOption.onclick = otherQuestions;
+        questionOption.onclick = checkAnswer;
   
         questionListEl.append(questionOption);
 
     })
 }
+function checkAnswer(){
+    if(this.value !== questions[qIndex].answer ){
+     
+      count -= 10;
+      if (count < 0) {
+        count = 0;
+      }
+      timerEl.textContent = count;
 
-//increment questions
-function otherQuestions(){
+      checkAnswerEl.textContent = "Wrong!";
+    } else {
+        checkAnswerEl.textContent = "Correct!";
+       
+    } 
+
+
+    
+    checkAnswerEl.setAttribute("class", "checkanswer");
+    setTimeout(() => {
+        checkAnswerEl.setAttribute("class", "checkanswer hide");
+    }, 10000);
+
     qIndex++
-    showNextQuestion()
 
     if(questions.length === qIndex){
         stopQuiz();
     } else {
         showNextQuestion();
     }
-}
+  }
 
 
-//check answer
-function checkAnswer(event){
-    if(event.target.matches("button")){
-        answer = event.target.textContent;
-        if(answerEl === questions[qIndex].answer){
-            checkAnswerEl.textContent = "Correct!";
-        } else{
-            checkAnswerEl.textContent = "Wrong!";
-            count -= 5
-            timerEl.textContent = count;
-    }
-    checkAnswerEl.setAttribute("class", "checkanswer");
-    setTimeout(() => {
-        checkAnswerEl.setAttribute("class", "checkanswer hide");
-    }, 1000);
-    } 
-}
-   
 
 //Stop Quiz on timeout
 function stopQuiz(){
     clearInterval(timeInterval);
+    var finishScreenEl = document.getElementById("finish-screen")
+    finishScreenEl.removeAttribute("class")
+    
+
     questionEl.setAttribute("class", "hide")
 }
 
@@ -131,7 +137,6 @@ function stopQuiz(){
         } 
   }
 
-  //check answer on click of the question choices
-questionListEl.addEventListener('click', checkAnswer);
+ 
 //start the quiz
 startbuttonEl.onclick = startQuiz;

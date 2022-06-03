@@ -50,7 +50,7 @@ ol {
 
 }
 #check-answer {
-    font-style: italic;
+    font-style:normal;
     color:blue;
     font-size: 150%;
     margin:10px;
