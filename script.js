@@ -31,19 +31,22 @@ var questions = [
         options: ["JavaScript", "terminal / bash", "for loops", "console.log"],
         answer: "console.log"
       }
-]
+];
 
 var qIndex = 0;
-var count = questions.length * 10;
+var count = questions.length * 15;
 var timeInterval;
 
-
+//
 var startbuttonEl = document.getElementById("start")
 var questionEl = document.getElementById("question")
 var questionTitleEl = document.getElementById("question-title")
 var questionListEl = document.getElementById("question-list")
 var timerEl = document.getElementById("count")
 var checkAnswerEl = document.getElementById("check-answer")
+var initialsEl = document.getElementById("initials")
+var scoreEl = document.getElementById("score")
+var submitCompleteQuizEl = document.getElementById("submit")
 
 
 
@@ -86,6 +89,8 @@ var checkAnswerEl = document.getElementById("check-answer")
 
     })
 }
+
+// check the answer
 function checkAnswer(){
     if(this.value !== questions[qIndex].answer ){
      
@@ -100,13 +105,10 @@ function checkAnswer(){
         checkAnswerEl.textContent = "Correct!";
        
     } 
-
-
-    
     checkAnswerEl.setAttribute("class", "checkanswer");
     setTimeout(() => {
         checkAnswerEl.setAttribute("class", "checkanswer hide");
-    }, 10000);
+    }, 220);
 
     qIndex++
 
@@ -117,18 +119,18 @@ function checkAnswer(){
     }
   }
 
-
-
 //Stop Quiz on timeout
 function stopQuiz(){
     clearInterval(timeInterval);
     var finishScreenEl = document.getElementById("finish-screen")
     finishScreenEl.removeAttribute("class")
-    
-
+    //print final score
+    scoreEl.textContent = count;
+    //set hide class to question div
     questionEl.setAttribute("class", "hide")
 }
 
+//stop the timer
   function stopCountDown(){
     count--;
     timerEl.textContent = count;
@@ -136,7 +138,22 @@ function stopQuiz(){
             stopQuiz();
         } 
   }
+  
+  //get high score
+ function highScore(){
+    var initials = initialsEl.value.trim()
+    if(initials !== undefined){
+        var scores = JSON.parse(localStorage.getItem("scores")) || [];
+        var scoresArray = {
+            score: count,
+            initials: initials,
+        }
+         scores.push(scoresArray)
+         localStorage.setItem("scores", JSON.stringify(scores))
+  }
+}
 
- 
+//click button to submit to local storage
+ submitCompleteQuizEl.onclick = highScore;
 //start the quiz
 startbuttonEl.onclick = startQuiz;

@@ -54,6 +54,7 @@ ol {
     color:blue;
     font-size: 150%;
     margin:10px;
+    border-top: 2px solid gray;
 }
 button:hover {
     opacity: 50%;
